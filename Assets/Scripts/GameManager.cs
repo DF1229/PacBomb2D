@@ -188,19 +188,8 @@ public class GameManager : MonoBehaviour
 
     private void IncrementGhostSpeed(Ghost ghost)
     {
-        // Ghosts should never be faster than pacman, that would make the game impossible to win.
-        // Var is simply the ghost's speed divided by pacman's speed, and then divided by 2.
-        // This way the ghosts will only slightly speed up each time a fruit is eaten,
-        // but they would eventually become faster than pacman.
-        // To prevent this, we do a check before assigning the ghost's new speed.
-
-        float var = (ghost.movement.speed / pacman.movement.speed) / 2;
-        float newSpeed = ghost.movement.speed += var;
-
-        if (newSpeed <= pacman.movement.speed)
-        {
-            ghost.movement.speed = newSpeed;
-        }
+        float var = Mathf.SmoothStep(ghost.movement.speed, pacman.movement.speed, 0.3f);
+        ghost.movement.speed = var;
     }
 
     private bool HasRemainingPellets()
