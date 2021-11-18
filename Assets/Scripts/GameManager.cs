@@ -238,19 +238,12 @@ public class GameManager : MonoBehaviour
 
     private void ClearBombs()
     {
-        //bombs.ForEach(DestroyBomb);
-        Debug.Log("clearbombs()");
         foreach (Bomb bomb in bombs)
         {
             if (bomb != null)
                 Destroy(bomb.gameObject);
 
         }
-    }
-
-    private void DestroyBomb(Bomb bomb)
-    {
-        Destroy(bomb);
     }
 }
 //TODO: sound
