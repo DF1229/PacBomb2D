@@ -157,11 +157,6 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < ghosts.Length; i++)
         {
             ghosts[i].vulnerable.Enable(pellet.duration);
-
-            //if (ghosts[i].movement.speed - pacman.movement.speed <= 0.3f)
-            //{
-            //    ghosts[i].scatter.Enable(pellet.duration);
-            //}
         }
 
         PelletEaten(pellet);
