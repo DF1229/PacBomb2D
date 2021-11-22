@@ -50,7 +50,6 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
-    // Singleton pattern: private static + public static with custom get/set ensures there will only ever be a single instance of this class.
 
     private void Awake()
     {
@@ -159,10 +158,10 @@ public class GameManager : MonoBehaviour
         {
             ghosts[i].vulnerable.Enable(pellet.duration);
 
-            if (ghosts[i].movement.speed - pacman.movement.speed <= 0.3f)
-            {
-                ghosts[i].scatter.Enable(pellet.duration);
-            }
+            //if (ghosts[i].movement.speed - pacman.movement.speed <= 0.3f)
+            //{
+            //    ghosts[i].scatter.Enable(pellet.duration);
+            //}
         }
 
         PelletEaten(pellet);

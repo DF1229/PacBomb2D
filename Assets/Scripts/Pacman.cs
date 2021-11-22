@@ -35,7 +35,7 @@ public class Pacman : MonoBehaviour
         }
 
         // check attack axis
-        if (Input.GetAxis("Fire1") > 0.0f || Input.GetAxis("Fire2") > 0.0f) { // as determined by unity's input manager
+        if (Input.GetAxis("Fire1") > 0.0f || Input.GetAxis("Fire2") > 0.0f) {
             Attack();
         }
 
@@ -46,12 +46,17 @@ public class Pacman : MonoBehaviour
 
     private void Attack() {
         if (canAttack) {
-            Vector3Int cellNum = tilemap.WorldToCell(transform.position); // cell coords are in integers, using Vector3 just eats up more memory
-            Vector3 cellPos = tilemap.GetCellCenterWorld(cellNum); // get location of tilemap cell's exact center
-            cellPos.z = -2.5f; // display bomb above wall tiles
+            Vector3Int cellNum = tilemap.WorldToCell(transform.position);
+            Vector3 cellPos = tilemap.GetCellCenterWorld(cellNum);
+            cellPos.z = -2.5f; // -2.5f = distance from camera relative to world's 0 point, ensures correct draworder
 
-            Instantiate(bomb, cellPos, Quaternion.identity); // spawn bomb in cell
+            Instantiate(bomb, cellPos, Quaternion.identity);
             canAttack = false;
+
+            foreach (Ghost ghost in GameManager.Instance.ghosts)
+            {
+                ghost.scatter.Enable(5f); // scatter for 5 seconds
+            }
         }
     }
 
