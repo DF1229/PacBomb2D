@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -150,8 +149,6 @@ public class GameManager : MonoBehaviour
         } else if (!HasRemainingPellets())
         {
             // TODO: Victory!
-            //pacman.gameObject.SetActive(false);
-            //Invoke(nameof(NewRound), 3.0f);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
@@ -161,6 +158,11 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < ghosts.Length; i++)
         {
             ghosts[i].vulnerable.Enable(pellet.duration);
+
+            if (ghosts[i].movement.speed - pacman.movement.speed <= 0.3f)
+            {
+                ghosts[i].scatter.Enable(pellet.duration);
+            }
         }
 
         PelletEaten(pellet);
@@ -182,14 +184,9 @@ public class GameManager : MonoBehaviour
 
         foreach (Ghost ghost in ghosts)
         {
-            IncrementGhostSpeed(ghost);
+            float var = Mathf.SmoothStep(ghost.movement.speed, pacman.movement.speed, 0.3f);
+            ghost.movement.speed = var;
         }
-    }
-
-    private void IncrementGhostSpeed(Ghost ghost)
-    {
-        float var = Mathf.SmoothStep(ghost.movement.speed, pacman.movement.speed, 0.3f);
-        ghost.movement.speed = var;
     }
 
     private bool HasRemainingPellets()
