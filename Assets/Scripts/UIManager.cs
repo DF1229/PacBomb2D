@@ -55,12 +55,9 @@ public class UIManager : MonoBehaviour
         {
             case 0:
                 life1.gameObject.SetActive(false);
-                life2.gameObject.SetActive(false);
-                life3.gameObject.SetActive(false);
                 break;
             case 1:
                 life2.gameObject.SetActive(false);
-                life3.gameObject.SetActive(false);
                 break;
             case 2:
                 life3.gameObject.SetActive(false);
