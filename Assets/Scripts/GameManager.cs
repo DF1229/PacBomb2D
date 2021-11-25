@@ -254,7 +254,7 @@ public class GameManager : MonoBehaviour
             Invoke(nameof(ResetState), 3.0f);
         } else
         {
-            Invoke(nameof(GameOver), 2.0f);
+            Invoke(nameof(GameOver), 1.5f);
         }
     }
 
