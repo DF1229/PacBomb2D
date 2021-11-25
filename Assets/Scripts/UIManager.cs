@@ -1,3 +1,4 @@
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
@@ -74,5 +75,15 @@ public class UIManager : MonoBehaviour
                 Debug.Log("UpdateLives() default case reached");
                 break;
         }
+    }
+
+    public void PlayAgain()
+    {
+        
+    }
+
+    public void ExitToMenu()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 }
