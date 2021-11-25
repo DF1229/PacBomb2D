@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public Ghost[] ghosts;
     public Pacman pacman;
+    public GameObject fakePacman;
     public Transform pellets;
     public List<Bomb> bombs = new List<Bomb>();
     public Sprite[] fruitSprites;
@@ -120,18 +121,12 @@ public class GameManager : MonoBehaviour
     public void PacmanEaten()
     {
         ClearBombs();
-        pacman.gameObject.SetActive(false);
-        SetLives(lives - 1);
-        if (lives > 0)
-        {
-            Invoke(nameof(ResetState), 3.0f);
-        } else
-        {
-            // TODO: Game over!
-            //GameOver();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-        }
+        DisableGhosts();
+
+        SpawnReplacementPacman();
     }
+
+    
 
     public void PelletEaten(Pellet pellet)
     {
@@ -178,8 +173,7 @@ public class GameManager : MonoBehaviour
 
         foreach (Ghost ghost in ghosts)
         {
-            float var = Mathf.SmoothStep(ghost.movement.speed, pacman.movement.speed, 0.3f);
-            ghost.movement.speed = var;
+            ghost.movement.speed = Mathf.MoveTowards(ghost.movement.speed, pacman.movement.speed, 0.3f);
         }
     }
 
@@ -233,7 +227,38 @@ public class GameManager : MonoBehaviour
         {
             if (bomb != null)
                 Destroy(bomb.gameObject);
+        }
+    }
 
+    private void DisableGhosts()
+    {
+        foreach (Ghost ghost in this.ghosts)
+        {
+            ghost.gameObject.SetActive(false);
+        }
+    }
+
+    private void SpawnReplacementPacman()
+    {
+        Vector3 spawnPos = pacman.transform.position;
+
+        pacman.gameObject.SetActive(false);
+        Instantiate(fakePacman, spawnPos, Quaternion.identity);
+
+        EvalLives();
+    }
+
+    private void EvalLives()
+    {
+        SetLives(lives - 1);
+        if (lives > 0)
+        {
+            Invoke(nameof(ResetState), 3.0f);
+        } else
+        {
+            // TODO: Game over!
+            //GameOver();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
 }

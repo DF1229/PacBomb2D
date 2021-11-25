@@ -9390,6 +9390,7 @@ MonoBehaviour:
   - {fileID: 1925608018}
   - {fileID: 1106325058}
   pacman: {fileID: 47912235}
+  fakePacman: {fileID: 2827706153809978270, guid: d6afa1732d7082840b63ca58a25c0062, type: 3}
   pellets: {fileID: 2144642229}
   bombs: []
   fruitSprites:
