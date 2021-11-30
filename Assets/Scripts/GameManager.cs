@@ -243,12 +243,12 @@ public class GameManager : MonoBehaviour
         pacman.gameObject.SetActive(false);
         Instantiate(fakePacman, spawnPos, Quaternion.identity);
 
-        SetLives(lives - 1);
         EvalLives();
     }
 
     private void EvalLives()
     {
+        SetLives(lives - 1);
         if (lives >= 0)
         {
             Invoke(nameof(ResetState), 3.0f);
