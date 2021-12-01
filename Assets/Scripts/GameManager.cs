@@ -5,18 +5,20 @@ public class GameManager : MonoBehaviour
 {
     // Public - Game elements
     public GameObject fakePacman; // death animation prefab
-    public List<Bomb> bombs = new List<Bomb>();
     public GameObject fruitPrefab;
-    public Sprite[] fruitSprites;
+    public GameObject gamePaused;
     public GameObject gameOver;
     public Transform pellets;
-    public Ghost[] ghosts;
     public Pacman pacman;
+    public List<Bomb> bombs = new List<Bomb>();
+    public Sprite[] fruitSprites;
+    public Ghost[] ghosts;
 
     // Private - Game elements
-    private int totalPellets;
     private int remainingPellets;
+    private int totalPellets;
     private bool fruitSpawned;
+    private bool paused;
     private GameObject fruit;
 
     // Public - Stats set from editor
@@ -70,7 +72,15 @@ public class GameManager : MonoBehaviour
         NewGame();
     }
 
-    private void NewGame()
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
+    }
+
+    public void NewGame()
     {
         SetScore(0);
         SetLives(3);
@@ -271,6 +281,21 @@ public class GameManager : MonoBehaviour
         pacman.gameObject.SetActive(false);
 
         gameOver.SetActive(true);
+    }
+
+    private void TogglePause()
+    {
+        if (this.paused)
+        {
+            Time.timeScale = 1f;
+            gamePaused.SetActive(false);
+            this.paused = false;
+        } else
+        {
+            Time.timeScale = 0f;
+            gamePaused.SetActive(true);
+            this.paused = true;
+        }
     }
 }
 //TODO: sound

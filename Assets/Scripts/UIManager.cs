@@ -54,6 +54,11 @@ public class UIManager : MonoBehaviour
     {
         switch (lives)
         {
+            case -1:
+                life1.gameObject.SetActive(true);
+                life2.gameObject.SetActive(true);
+                life3.gameObject.SetActive(true);
+                break;
             case 0:
                 life1.gameObject.SetActive(false);
                 break;
@@ -77,11 +82,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    // Called via UI button
     public void PlayAgain()
     {
-        
+        GameManager.Instance.NewGame();
     }
 
+    // Called via UI button
     public void ExitToMenu()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
