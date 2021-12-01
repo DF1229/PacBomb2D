@@ -1,3 +1,4 @@
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
@@ -55,12 +56,9 @@ public class UIManager : MonoBehaviour
         {
             case 0:
                 life1.gameObject.SetActive(false);
-                life2.gameObject.SetActive(false);
-                life3.gameObject.SetActive(false);
                 break;
             case 1:
                 life2.gameObject.SetActive(false);
-                life3.gameObject.SetActive(false);
                 break;
             case 2:
                 life3.gameObject.SetActive(false);
@@ -77,5 +75,15 @@ public class UIManager : MonoBehaviour
                 Debug.Log("UpdateLives() default case reached");
                 break;
         }
+    }
+
+    public void PlayAgain()
+    {
+        
+    }
+
+    public void ExitToMenu()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 }

@@ -1,23 +1,29 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    // Public - Game elements
+    public GameObject fakePacman; // death animation prefab
+    public List<Bomb> bombs = new List<Bomb>();
+    public GameObject fruitPrefab;
+    public Sprite[] fruitSprites;
+    public GameObject gameOver;
+    public Transform pellets;
     public Ghost[] ghosts;
     public Pacman pacman;
-    public Transform pellets;
-    public List<Bomb> bombs = new List<Bomb>();
-    public Sprite[] fruitSprites;
-    public GameObject fruitPrefab;
 
+    // Private - Game elements
     private int totalPellets;
     private int remainingPellets;
     private bool fruitSpawned;
     private GameObject fruit;
 
+    // Public - Stats set from editor
     public int explosionBonus = 20;
     public int ghostMultiplier { get; private set; }
+
+    // Score singleton
     private static int _score { get; set; }
     public static int score
     {
@@ -28,6 +34,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Lives singleton
     private int _lives;
     public int lives
     {
@@ -38,6 +45,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Gamemanager singleton
     private static GameManager _instance;
     public static GameManager Instance
     {
@@ -88,16 +96,6 @@ public class GameManager : MonoBehaviour
         pacman.ResetState();
     }
 
-    private void GameOver()
-    {
-        for (int i = 0; i < ghosts.Length; i++)
-        {
-            ghosts[i].gameObject.SetActive(false);
-        }
-
-        pacman.ResetState();
-    }
-
     private void SetScore(int newScore)
     {
         score = newScore;
@@ -120,18 +118,12 @@ public class GameManager : MonoBehaviour
     public void PacmanEaten()
     {
         ClearBombs();
-        pacman.gameObject.SetActive(false);
-        SetLives(lives - 1);
-        if (lives > 0)
-        {
-            Invoke(nameof(ResetState), 3.0f);
-        } else
-        {
-            // TODO: Game over!
-            //GameOver();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-        }
+        DisableGhosts();
+
+        SpawnReplacementPacman();
     }
+
+    
 
     public void PelletEaten(Pellet pellet)
     {
@@ -147,8 +139,9 @@ public class GameManager : MonoBehaviour
             }
         } else if (!HasRemainingPellets())
         {
+            Debug.Log("#rekt");
             // TODO: Victory!
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
 
@@ -178,8 +171,7 @@ public class GameManager : MonoBehaviour
 
         foreach (Ghost ghost in ghosts)
         {
-            float var = Mathf.SmoothStep(ghost.movement.speed, pacman.movement.speed, 0.3f);
-            ghost.movement.speed = var;
+            ghost.movement.speed = Mathf.MoveTowards(ghost.movement.speed, pacman.movement.speed, 0.3f);
         }
     }
 
@@ -233,8 +225,52 @@ public class GameManager : MonoBehaviour
         {
             if (bomb != null)
                 Destroy(bomb.gameObject);
-
         }
+    }
+
+    private void DisableGhosts()
+    {
+        foreach (Ghost ghost in this.ghosts)
+        {
+            ghost.gameObject.SetActive(false);
+        }
+    }
+
+    private void SpawnReplacementPacman()
+    {
+        Vector3 spawnPos = pacman.transform.position;
+
+        pacman.gameObject.SetActive(false);
+        Instantiate(fakePacman, spawnPos, Quaternion.identity);
+
+        EvalLives();
+    }
+
+    private void EvalLives()
+    {
+        SetLives(lives - 1);
+        if (lives >= 0)
+        {
+            Invoke(nameof(ResetState), 3.0f);
+        } else
+        {
+            Invoke(nameof(GameOver), 1.5f);
+        }
+    }
+
+    /**
+     * Gets called after pacman's death animation, and only if there are no more remaining lives
+     * Enables the UI object that shows the game over message, and gives the player a menu/play again option
+     */
+    private void GameOver()
+    {
+        foreach (Ghost ghost in ghosts)
+        {
+            ghost.gameObject.SetActive(false);
+        }
+        pacman.gameObject.SetActive(false);
+
+        gameOver.SetActive(true);
     }
 }
 //TODO: sound
