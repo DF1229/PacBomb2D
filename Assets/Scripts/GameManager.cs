@@ -18,10 +18,10 @@ public class GameManager : MonoBehaviour
     private int remainingPellets;
     private int totalPellets;
     private bool fruitSpawned;
-    private bool paused;
+    private bool paused = false;
     private GameObject fruit;
 
-    // Public - Stats set from editor
+    // Public - Number values set from editor
     public int explosionBonus = 20;
     public int ghostMultiplier { get; private set; }
 
@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
         ResetPellets();
     }
 
-    private void ResetState()
+    public void ResetState()
     {
         ResetGhostMultiplier();
 
@@ -130,10 +130,8 @@ public class GameManager : MonoBehaviour
         ClearBombs();
         DisableGhosts();
 
-        SpawnReplacementPacman();
+        SpawnPacmanDeathAnim();
     }
-
-    
 
     public void PelletEaten(Pellet pellet)
     {
@@ -246,7 +244,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void SpawnReplacementPacman()
+    private void SpawnPacmanDeathAnim()
     {
         Vector3 spawnPos = pacman.transform.position;
 
@@ -261,9 +259,9 @@ public class GameManager : MonoBehaviour
         SetLives(lives - 1);
         if (lives >= 0)
         {
-            Invoke(nameof(ResetState), 3.0f);
+            UIManager.Instance.ShowDeathScreen(true);
         } else
-        {
+        { 
             Invoke(nameof(GameOver), 1.5f);
         }
     }

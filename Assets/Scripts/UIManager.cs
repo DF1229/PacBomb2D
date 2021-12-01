@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour
 
     public GameObject scoreValue;
     public GameObject attackDisplay;
+    public GameObject GameDeadDisplay;
+
     private TextMeshProUGUI score;
     private Image[] lives = new Image[3];
     
@@ -32,6 +34,15 @@ public class UIManager : MonoBehaviour
         _instance = this;
 
         score = scoreValue.GetComponent<TextMeshProUGUI>();
+    }
+
+    public void Update()
+    {
+        if (GameDeadDisplay.activeSelf && Input.GetKeyDown(KeyCode.Space)) 
+        {
+            ShowDeathScreen(false);
+            GameManager.Instance.ResetState();
+        }
     }
 
     public void UpdateScore(int newScore)
@@ -80,6 +91,14 @@ public class UIManager : MonoBehaviour
                 Debug.Log("UpdateLives() default case reached");
                 break;
         }
+    }
+
+    public void ShowDeathScreen(bool show)
+    {
+        if (show)
+            GameDeadDisplay.SetActive(true);
+        else
+            GameDeadDisplay.SetActive(false);
     }
 
     // Called via UI button
