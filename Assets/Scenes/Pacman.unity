@@ -9776,6 +9776,8 @@ MonoBehaviour:
   scoreValue: {fileID: 789553673}
   attackDisplay: {fileID: 409970309}
   GameDeadDisplay: {fileID: 946654376}
+  GameOverDisplay: {fileID: 1154803477}
+  GamePausedDisplay: {fileID: 1449276115}
 --- !u!4 &1239375851
 Transform:
   m_ObjectHideFlags: 0

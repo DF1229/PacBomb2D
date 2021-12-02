@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
     public GameObject scoreValue;
     public GameObject attackDisplay;
     public GameObject GameDeadDisplay;
+    public GameObject GameOverDisplay;
+    public GameObject GamePausedDisplay;
 
     private TextMeshProUGUI score;
     private Image[] lives = new Image[3];
@@ -104,6 +106,11 @@ public class UIManager : MonoBehaviour
     // Called via UI button
     public void PlayAgain()
     {
+        if (GameOverDisplay.activeSelf)
+            GameOverDisplay.SetActive(false);
+        if (GamePausedDisplay.activeSelf)
+            GamePausedDisplay.SetActive(false);
+
         GameManager.Instance.NewGame();
     }
 
