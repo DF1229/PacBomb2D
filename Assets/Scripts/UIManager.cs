@@ -1,4 +1,5 @@
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
@@ -17,7 +18,8 @@ public class UIManager : MonoBehaviour
 
     private TextMeshProUGUI score;
     private Image[] lives = new Image[3];
-    
+
+    private PlayerControls controls;
     private static UIManager _instance;
     public static UIManager Instance
     {
@@ -34,17 +36,30 @@ public class UIManager : MonoBehaviour
     public void Awake()
     {
         _instance = this;
+        controls = new PlayerControls();
 
         score = scoreValue.GetComponent<TextMeshProUGUI>();
     }
 
+    private void OnEnable()
+    {
+        controls.Gameplay.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Gameplay.Disable();
+    }
+
     public void Update()
     {
-        if (GameDeadDisplay.activeSelf && Input.GetKeyDown(KeyCode.Space)) 
-        {
-            ShowDeathScreen(false);
-            GameManager.Instance.ResetState();
-        }
+        controls.Gameplay.Respawn.performed += ctx => {
+            if (GameDeadDisplay.activeSelf)
+            {
+                ShowDeathScreen(false);
+                GameManager.Instance.ResetState();
+            }
+        };
     }
 
     public void UpdateScore(int newScore)

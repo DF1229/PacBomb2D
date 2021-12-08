@@ -1,3 +1,4 @@
+using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 using UnityEngine;
 
@@ -16,30 +17,44 @@ public class Pacman : MonoBehaviour
         }
     }
 
+    private PlayerControls controls;
+
     private void Awake()
     {
+        controls = new PlayerControls();
         movement = GetComponent<Movement>();
     }
 
     private void Update()
     {
-        // check movement axis
-        if (Input.GetAxis("Vertical") > 0.0f) { // up
+
+        // Movement
+        controls.Gameplay.MoveUp.performed += ctx => {
             movement.SetDirection(Vector2.up);
-        } else if (Input.GetAxis("Vertical") < 0.0f) { // down
+            Debug.Log("MoveUp.performed");
+        };
+        controls.Gameplay.MoveDown.performed += ctx => {
             movement.SetDirection(Vector2.down);
-        } else if (Input.GetAxis("Horizontal") < 0.0f) { // left
+            Debug.Log("MoveDown.performed");
+        };
+        controls.Gameplay.MoveLeft.performed += ctx => {
             movement.SetDirection(Vector2.left);
-        } else if (Input.GetAxis("Horizontal") > 0.0f) { // right
+            Debug.Log("MoveLeft.performed");
+        };
+        controls.Gameplay.MoveRight.performed += ctx => {
             movement.SetDirection(Vector2.right);
-        }
+            Debug.Log("MoveRight.performed");
+        };
 
-        // check attack axis
-        if (Input.GetAxis("Fire1") > 0.0f || Input.GetAxis("Fire2") > 0.0f) {
-            Attack();
-        }
+        //controls.Gameplay.MoveUp.performed += ctx => movement.SetDirection(Vector2.up);
+        //controls.Gameplay.MoveDown.performed += ctx => movement.SetDirection(Vector2.down);
+        //controls.Gameplay.MoveLeft.performed += ctx => movement.SetDirection(Vector2.left);
+        //controls.Gameplay.MoveRight.performed += ctx => movement.SetDirection(Vector2.right);
 
-        // let there be movement!
+        // Attacking
+        controls.Gameplay.Attack.performed += ctx => Attack();
+
+        // Rotate pacman based on the current direction of travel
         float angle = Mathf.Atan2(movement.direction.y, movement.direction.x); 
         transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward);
     }
