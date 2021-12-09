@@ -293,7 +293,7 @@ public class GameManager : MonoBehaviour
         gameOver.SetActive(true);
     }
 
-    private void TogglePause()
+    public void TogglePause()
     {
         if (this.paused)
         {
