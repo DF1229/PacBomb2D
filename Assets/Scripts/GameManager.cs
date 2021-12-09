@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -61,9 +62,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Playercontrols variable
+    private PlayerControls controls;
+
     private void Awake()
     {
         _instance = this;
+        controls = new PlayerControls();
+    }
+
+    private void OnEnable()
+    {
+        controls.Gameplay.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Gameplay.Disable();
     }
 
     private void Start()
@@ -74,10 +89,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePause();
-        }
+        controls.Gameplay.Pause.performed += ctx => TogglePause();
     }
 
     public void NewGame()
