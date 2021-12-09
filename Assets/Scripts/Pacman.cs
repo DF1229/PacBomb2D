@@ -25,31 +25,23 @@ public class Pacman : MonoBehaviour
         movement = GetComponent<Movement>();
     }
 
+    private void OnEnable()
+    {
+        controls.Gameplay.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Gameplay.Disable();
+    }
+
     private void Update()
     {
-
         // Movement
-        controls.Gameplay.MoveUp.performed += ctx => {
-            movement.SetDirection(Vector2.up);
-            Debug.Log("MoveUp.performed");
-        };
-        controls.Gameplay.MoveDown.performed += ctx => {
-            movement.SetDirection(Vector2.down);
-            Debug.Log("MoveDown.performed");
-        };
-        controls.Gameplay.MoveLeft.performed += ctx => {
-            movement.SetDirection(Vector2.left);
-            Debug.Log("MoveLeft.performed");
-        };
-        controls.Gameplay.MoveRight.performed += ctx => {
-            movement.SetDirection(Vector2.right);
-            Debug.Log("MoveRight.performed");
-        };
-
-        //controls.Gameplay.MoveUp.performed += ctx => movement.SetDirection(Vector2.up);
-        //controls.Gameplay.MoveDown.performed += ctx => movement.SetDirection(Vector2.down);
-        //controls.Gameplay.MoveLeft.performed += ctx => movement.SetDirection(Vector2.left);
-        //controls.Gameplay.MoveRight.performed += ctx => movement.SetDirection(Vector2.right);
+        controls.Gameplay.MoveUp.performed += ctx => { movement.SetDirection(Vector2.up); };
+        controls.Gameplay.MoveDown.performed += ctx => movement.SetDirection(Vector2.down);
+        controls.Gameplay.MoveLeft.performed += ctx => movement.SetDirection(Vector2.left);
+        controls.Gameplay.MoveRight.performed += ctx => movement.SetDirection(Vector2.right);
 
         // Attacking
         controls.Gameplay.Attack.performed += ctx => Attack();
