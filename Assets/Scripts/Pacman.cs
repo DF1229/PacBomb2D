@@ -38,7 +38,7 @@ public class Pacman : MonoBehaviour
     private void Update()
     {
         // Movement
-        controls.Gameplay.MoveUp.performed += ctx => { movement.SetDirection(Vector2.up); };
+        controls.Gameplay.MoveUp.performed += ctx => movement.SetDirection(Vector2.up);
         controls.Gameplay.MoveDown.performed += ctx => movement.SetDirection(Vector2.down);
         controls.Gameplay.MoveLeft.performed += ctx => movement.SetDirection(Vector2.left);
         controls.Gameplay.MoveRight.performed += ctx => movement.SetDirection(Vector2.right);
