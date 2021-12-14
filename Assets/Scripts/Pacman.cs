@@ -37,18 +37,22 @@ public class Pacman : MonoBehaviour
 
     private void Update()
     {
-        // Movement
-        controls.Gameplay.MoveUp.performed += ctx => movement.SetDirection(Vector2.up);
-        controls.Gameplay.MoveDown.performed += ctx => movement.SetDirection(Vector2.down);
-        controls.Gameplay.MoveLeft.performed += ctx => movement.SetDirection(Vector2.left);
-        controls.Gameplay.MoveRight.performed += ctx => movement.SetDirection(Vector2.right);
 
-        // Attacking
-        controls.Gameplay.Attack.performed += ctx => Attack();
+        if (Time.timeScale != 0f)
+        {
+            // Movement
+            controls.Gameplay.MoveUp.performed += ctx => movement.SetDirection(Vector2.up);
+            controls.Gameplay.MoveDown.performed += ctx => movement.SetDirection(Vector2.down);
+            controls.Gameplay.MoveLeft.performed += ctx => movement.SetDirection(Vector2.left);
+            controls.Gameplay.MoveRight.performed += ctx => movement.SetDirection(Vector2.right);
 
-        // Rotate pacman based on the current direction of travel
-        float angle = Mathf.Atan2(movement.direction.y, movement.direction.x); 
-        transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward);
+            // Attacking
+            controls.Gameplay.Attack.performed += ctx => Attack();
+
+            // Rotate pacman based on the current direction of travel
+            float angle = Mathf.Atan2(movement.direction.y, movement.direction.x);
+            transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward);
+        }
     }
 
     private void Attack() {
