@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
@@ -25,6 +26,10 @@ public class GameManager : MonoBehaviour
     // Public - Number values set from editor
     public int explosionBonus = 20;
     public int ghostMultiplier { get; private set; }
+
+    // Public - UI elements set from editor
+    public GameObject pausedResumeBtn;
+    public GameObject gameOverBackBtn;
 
     // Score singleton
     private static int _score { get; set; }
@@ -291,6 +296,7 @@ public class GameManager : MonoBehaviour
         pacman.gameObject.SetActive(false);
 
         gameOver.SetActive(true);
+        SetActiveMenuButton(gameOverBackBtn);
     }
 
     public void TogglePause()
@@ -300,12 +306,26 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1f;
             gamePaused.SetActive(false);
             this.paused = false;
+
+            ClearActiveMenuButton();
         } else
         {
             Time.timeScale = 0f;
             gamePaused.SetActive(true);
             this.paused = true;
+
+            SetActiveMenuButton(pausedResumeBtn);
         }
+    }
+
+    public void SetActiveMenuButton(GameObject input)
+    {
+        EventSystem.current.SetSelectedGameObject(input);
+    }
+
+    public void ClearActiveMenuButton()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
     }
 }
 //TODO: sound
