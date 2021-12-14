@@ -1184,6 +1184,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   optionsMenu: {fileID: 2077955704}
   quitMenu: {fileID: 1679507564}
+  mainPlayBtn: {fileID: 866822225}
+  optionsBackBtn: {fileID: 32337118}
+  quitBackBtn: {fileID: 1169719778}
 --- !u!1 &613082402
 GameObject:
   m_ObjectHideFlags: 0
