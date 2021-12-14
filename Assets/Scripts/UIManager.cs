@@ -126,6 +126,7 @@ public class UIManager : MonoBehaviour
         if (GamePausedDisplay.activeSelf)
             GamePausedDisplay.SetActive(false);
 
+        Time.timeScale = 1f;
         GameManager.Instance.NewGame();
     }
 
