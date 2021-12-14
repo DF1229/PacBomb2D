@@ -11327,6 +11327,8 @@ MonoBehaviour:
   - {fileID: 1925608018}
   - {fileID: 1106325058}
   explosionBonus: 20
+  pausedResumeBtn: {fileID: 404489456}
+  gameOverBackBtn: {fileID: 258406760}
 --- !u!4 &2029769040
 Transform:
   m_ObjectHideFlags: 0
