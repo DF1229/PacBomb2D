@@ -1,8 +1,6 @@
 # PacBomb2D
 This project was part of a school assignment.
 The goal was to learn more about game development, and discover if it is something for me.
-
-
 The game is a mix between Pacman and Bomberman, made in Unity (version 2021.1.27f1).
 
 Main features include:
