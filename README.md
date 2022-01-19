@@ -1,6 +1,5 @@
 # PacBomb2D
 This project was part of a school assignment.
-
 The goal was to learn more about game development, and discover if it is something for me.
 
 
@@ -12,5 +11,4 @@ Main features include:
 - Controller support
 
 The project taught me a lot about game development, and I can see myself returning to Unity at a later date.
-
 For now I want to focus on my portfolio website, after which I might dabble with a VR/AR game.
